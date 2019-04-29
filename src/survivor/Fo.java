@@ -20,6 +20,7 @@ public class Fo extends JFrame {
 		ablak.setSize(840, 630);
 		ablak.setLocation(210, 150);
 		
+		
 	}
 	
 }

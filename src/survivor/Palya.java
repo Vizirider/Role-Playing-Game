@@ -1,11 +1,15 @@
 package survivor;
 
 import javax.swing.JOptionPane;
+
+import java.io.IOException;
 import java.util.*;  
 
 public class Palya {
 	
-	public int[][] palyaTerkep = new int[10][10];
+	public int row = (int)(Math.random()*10);
+	public int column = (int)(Math.random()*10);
+	public int[][] palyaTerkep = new int[row][column];
 	
 	public int tapasztalatip = 155;
 	ArrayList<String> gyujtottfegyver = new ArrayList<String>();
@@ -64,8 +68,8 @@ public class Palya {
 	
 	public Palya(){
 		
-		for(int i=0;i<10;i++){
-			for(int j=0;j<10;j++){
+		for(int i=0;i<row;i++){
+			for(int j=0;j<column;j++){
 				palyaTerkep[i][j]=0;
 			}
 		}
@@ -110,7 +114,7 @@ public class Palya {
 
     		
     		JOptionPane.showMessageDialog(null, "Te támadsz a szörnyre.");
-    		if(mi.szorny_sebzese>sz.vedoertek) {   			
+    		if(mi.szorny_sebzese>sz.vedoertek && mi.szorny_gyorsasaga >= sz.szorny_gyorsasaga && mi.varazs_pont >= mi.varazs_pont ) {   			
     			sz.szorny_eletpontja-=(mi.szorny_sebzese-sz.vedoertek);
     			if(sz.szorny_eletpontja<=0) {
     				JOptionPane.showMessageDialog(null, "Legyõzted a szörnyet!!");
@@ -129,6 +133,7 @@ public class Palya {
     							}
                                  break;
     			}
+    		if(sz.szorny_gyorsasaga > mi.szorny_gyorsasaga)
     			JOptionPane.showMessageDialog(null, "Rád támad a szörny.");
     		if(sz.szorny_sebzese>mi.vedoertek) {   			
     			mi.szorny_eletpontja-=(sz.szorny_sebzese-mi.szorny_eletpontja);
@@ -147,6 +152,7 @@ public class Palya {
     				Fo.a.szoveg11.setText("Védõérték: "+mi.vedoertek);
     				Fo.a.szoveg12.setText("Sebzés: "+mi.szorny_sebzese);
     				Fo.a.szoveg8.setText("Fegyver: "+mi.szorny_cucca);
+    				Fo.a.szoveg16.setText("Varázspont" + mi.varazs_pont);
     	}
     
 	
@@ -162,10 +168,14 @@ public class Palya {
 			        mi.szorny_eletpontja += 1;
 			    }else {
 			    	if(palyaTerkep[miX][miY]==1){
+			    		if(Szorny1.szorny_cucca == "Kõ")
+			    		{
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny1.szorny_neve);
 			        Fo.a.szAdatok.szornyAdatokRajz(Szorny1,"1.jpg");
 			        harc(Szorny1,Szorny25);
 			        mi.tapasztalatip += 1;
+			    		}
+			    		else {JOptionPane.showMessageDialog(null, "Megközelítettél egy szörnnyet! A neve: " + Szorny1.szorny_neve);}
 			    	}
 			    	if(palyaTerkep[miX][miY]==2){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny2.szorny_neve);
@@ -330,10 +340,14 @@ public class Palya {
 			    	mi.szorny_eletpontja += 1;
 			    }else {
 			    	if(palyaTerkep[miX][miY]==1){
+			    		if(Szorny1.szorny_cucca == "Kõ")
+			    		{
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny1.szorny_neve);
 			        Fo.a.szAdatok.szornyAdatokRajz(Szorny1,"1.jpg");
 			        harc(Szorny1,Szorny25);
 			        mi.tapasztalatip += 1;
+			    		}
+			    		else {JOptionPane.showMessageDialog(null, "Megközelítettél egy szörnnyet! A neve: " + Szorny1.szorny_neve);}
 			    	}
 			    	if(palyaTerkep[miX][miY]==2){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny2.szorny_neve);
@@ -476,7 +490,7 @@ public class Palya {
 			    }
 			    	palyaTerkep[miX][miY]=25;
 			    	palyaTerkep[miX][miY-1]=0;
-			    	mi.tapasztalatip += mi.tapasztalatip;
+			    	mi.tapasztalatip += 1;
 			}else JOptionPane.showMessageDialog(null, "Nem mehetsz keletre!");
 		}
 /*		for(int i=0;i<10;i++){
@@ -498,10 +512,14 @@ public class Palya {
 			    	mi.szorny_eletpontja += 1;
 			    }else {
 			    	if(palyaTerkep[miX][miY]==1){
+			    		if(Szorny1.szorny_cucca == "Kõ")
+			    		{
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny1.szorny_neve);
 			        Fo.a.szAdatok.szornyAdatokRajz(Szorny1,"1.jpg");
 			        harc(Szorny1,Szorny25);
 			        mi.tapasztalatip += 1;
+			    		}
+			    		else {JOptionPane.showMessageDialog(null, "Megközelítettél egy szörnnyet! A neve: " + Szorny1.szorny_neve);}
 			    	}
 			    	if(palyaTerkep[miX][miY]==2){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny2.szorny_neve);
@@ -666,10 +684,14 @@ public class Palya {
 			    	mi.tapasztalatip += 10;
 			    }else {
 			    	if(palyaTerkep[miX][miY]==1){
+			    		if(Szorny1.szorny_cucca == "Kõ")
+			    		{
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny1.szorny_neve);
 			        Fo.a.szAdatok.szornyAdatokRajz(Szorny1,"1.jpg");
 			        harc(Szorny1,Szorny25);
-			        mi.szorny_eletpontja += 1;
+			        mi.tapasztalatip += 1;
+			    		}
+			    		else {JOptionPane.showMessageDialog(null, "Megközelítettél egy szörnnyet! A neve: " + Szorny1.szorny_neve);}
 			    	}
 			    	if(palyaTerkep[miX][miY]==2){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny2.szorny_neve);
@@ -825,14 +847,45 @@ public class Palya {
 	}
 	public void boltolas(){
 		
-		JOptionPane.showMessageDialog(null, "A gyûjtött fegyvereid:" + gyujtottfegyver);
-		String input = JOptionPane.showInputDialog(null, "Melyik fegyveredtõl válnál meg? [0 - 25]"); 
-		
-		sorszam = Integer.parseInt(input);
-		JOptionPane.showMessageDialog(null, "Az eladott fegyvered:" + gyujtottfegyver.get(sorszam));
-		gyujtottfegyver.remove(sorszam);
-			    	
-		}
-	
+		int[] arr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+				17, 18, 19, 20, 21, 22, 23, 24, 25}; 
+        int n = arr.length; 
+        randomize (arr, n);
+        
+        		if(gyujtottfegyver.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Nincs még gyûjtött fegyvered");
+        		}
+        		else {
+					JOptionPane.showMessageDialog(null, "A gyûjtött fegyvereid:" + gyujtottfegyver);
+					String input = JOptionPane.showInputDialog(null, "Melyik fegyveredtõl válnál meg? [0 - 25]"); 
+					while(input != null)
+					{
+						sorszam = Integer.parseInt(input);
+						JOptionPane.showMessageDialog(null, "Az eladott fegyvered:" + gyujtottfegyver.get(sorszam));
+						gyujtottfegyver.remove(sorszam);	
+
+					}
+
+						JOptionPane.showMessageDialog(null, "Kiléptél a boltból");
+					}
+
+        		}
+
+	public void randomize( int arr[], int n) 
+    { 
+         
+        Random r = new Random(); 
+          	        
+        for (int i = n-1; i > 0; i--) { 
+              
+            int j = r.nextInt(i+1); 
+              
+            int temp = arr[i]; 
+            arr[i] = arr[j]; 
+            arr[j] = temp; 
+            
+        }
+        System.out.println(Arrays.toString(arr));
+    }
 
 }
