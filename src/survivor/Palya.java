@@ -9,10 +9,12 @@ public class Palya {
 	
 	public int row = (int)(Math.random()*10);
 	public int column = (int)(Math.random()*10);
-	public int[][] palyaTerkep = new int[row][column];
+	public int[][] palyaTerkep = new int[10][10];
 	
 	public int tapasztalatip = 155;
 	ArrayList<String> gyujtottfegyver = new ArrayList<String>();
+	String kezdofegyver = "Kard";
+	
 	public int sorszam;
 	public int szorny1=1;
 	public int szorny2=2;
@@ -67,12 +69,14 @@ public class Palya {
 	public Szorny Szorny25 = new Szorny("Én", 160, 130, 175, 65, 95, tapasztalatip, "Kard", 20);
 	
 	public Palya(){
-		
+		int start = 0;
 		for(int i=0;i<row;i++){
 			for(int j=0;j<column;j++){
-				palyaTerkep[i][j]=0;
+				start++;
+				palyaTerkep[i][j]=start;
 			}
 		}
+
 		palyaTerkep[1][0]=1;
 		palyaTerkep[5][4]=2;
 		palyaTerkep[6][1]=3;
@@ -98,6 +102,7 @@ public class Palya {
 		palyaTerkep[2][1]=23;
 		palyaTerkep[8][7]=24;
 		palyaTerkep[miX][miY]=25;
+
 		
 /*		for(int i=0;i<10;i++){
 			for(int j=0;j<10;j++){
@@ -108,19 +113,19 @@ public class Palya {
 */		
 	}
 	public void harc(Szorny sz, Szorny mi) {
-		Fo.a.szAdatok.setVisible(true);
+		MenuSor.a.szAdatok.setVisible(true);
     	while(!(sz.szorny_eletpontja<=0)||!(mi.szorny_eletpontja<=0)) {
    				
 
     		
     		JOptionPane.showMessageDialog(null, "Te támadsz a szörnyre.");
-    		if(mi.szorny_sebzese>sz.vedoertek && mi.szorny_gyorsasaga >= sz.szorny_gyorsasaga && mi.varazs_pont >= mi.varazs_pont ) {   			
+    		if(mi.szorny_sebzese>sz.vedoertek || mi.szorny_gyorsasaga >= sz.szorny_gyorsasaga || mi.varazs_pont >= sz.varazs_pont ) {   			
     			sz.szorny_eletpontja-=(mi.szorny_sebzese-sz.vedoertek);
     			if(sz.szorny_eletpontja<=0) {
     				JOptionPane.showMessageDialog(null, "Legyõzted a szörnyet!!");
                     gyujtottfegyver.add(sz.szorny_cucca);
                     JOptionPane.showMessageDialog(null, "Az elnyert fegyvered: " + sz.szorny_cucca);
-                                 Fo.a.szAdatok.setVisible(true);
+                                 MenuSor.a.szAdatok.setVisible(true);
                                  mi.tapasztalatip += 10;
                                  if(mi.tapasztalatip > 180)
                                  {
@@ -135,31 +140,31 @@ public class Palya {
     			}
     		if(sz.szorny_gyorsasaga > mi.szorny_gyorsasaga)
     			JOptionPane.showMessageDialog(null, "Rád támad a szörny.");
-    		if(sz.szorny_sebzese>mi.vedoertek) {   			
+    		if(sz.szorny_sebzese>mi.vedoertek || mi.szorny_gyorsasaga < sz.szorny_gyorsasaga || mi.varazs_pont < sz.varazs_pont) {   			
     			mi.szorny_eletpontja-=(sz.szorny_sebzese-mi.szorny_eletpontja);
     			if(mi.szorny_eletpontja<=0) {
     				JOptionPane.showMessageDialog(null, "Vesztettél!!");
-    				Fo.a.szAdatok.setVisible(true);
+    				MenuSor.a.szAdatok.setVisible(true);
     				
     				break;
     				}
     			}
     		}
-    				Fo.a.szoveg4.setText("Gyorsaság: "+mi.szorny_gyorsasaga);
-    				Fo.a.szoveg9.setText("Tapasztalati pont: "+mi.tapasztalatip);
-    				Fo.a.szoveg13.setText("Életpont: "+mi.szorny_eletpontja);
-    				Fo.a.szoveg10.setText("Támadóérték: "+mi.tamadoertek);
-    				Fo.a.szoveg11.setText("Védõérték: "+mi.vedoertek);
-    				Fo.a.szoveg12.setText("Sebzés: "+mi.szorny_sebzese);
-    				Fo.a.szoveg8.setText("Fegyver: "+mi.szorny_cucca);
-    				Fo.a.szoveg16.setText("Varázspont" + mi.varazs_pont);
+    				MenuSor.a.szoveg4.setText("Gyorsaság: "+mi.szorny_gyorsasaga);
+    				MenuSor.a.szoveg9.setText("Tapasztalati pont: "+mi.tapasztalatip);
+    				MenuSor.a.szoveg13.setText("Életpont: "+mi.szorny_eletpontja);
+    				MenuSor.a.szoveg10.setText("Támadóérték: "+mi.tamadoertek);
+    				MenuSor.a.szoveg11.setText("Védõérték: "+mi.vedoertek);
+    				MenuSor.a.szoveg12.setText("Sebzés: "+mi.szorny_sebzese);
+    				MenuSor.a.szoveg8.setText("Fegyver: "+mi.szorny_cucca);
+    				MenuSor.a.szoveg16.setText("Varázspont" + mi.varazs_pont);
     	}
     
 	
 	public void lepes(char irany, Szorny mi){
-		Fo.a.szovegdoboz2.setText("Lépés");
+		MenuSor.a.szovegdoboz2.setText("Lépés");
 		if(irany=='n'){
-			Fo.a.szovegdoboz.setText("Nyugat");
+			MenuSor.a.szovegdoboz.setText("Nyugat");
 			if(miY>0) {
 				miY-=1;
 			    if(palyaTerkep[miX][miY]==0){
@@ -171,7 +176,7 @@ public class Palya {
 			    		if(Szorny1.szorny_cucca == "Kõ")
 			    		{
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny1.szorny_neve);
-			        Fo.a.szAdatok.szornyAdatokRajz(Szorny1,"1.jpg");
+			        MenuSor.a.szAdatok.szornyAdatokRajz(Szorny1,"1.jpg");
 			        harc(Szorny1,Szorny25);
 			        mi.tapasztalatip += 1;
 			    		}
@@ -179,139 +184,139 @@ public class Palya {
 			    	}
 			    	if(palyaTerkep[miX][miY]==2){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny2.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny2,"2.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny2,"2.jpg");
 			        harc(Szorny2,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==3){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny3.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny3,"3.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny3,"3.jpg");
 			        harc(Szorny3,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==4){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny4.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny4,"4.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny4,"4.jpg");
 			        harc(Szorny4,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==5){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny5.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny5,"5.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny5,"5.jpg");
 			        harc(Szorny5,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==6){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny6.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny6,"6.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny6,"6.jpg");
 			        harc(Szorny6,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==7){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny7.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny7,"7.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny7,"7.jpg");
 			        harc(Szorny7,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==8){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny8.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny8,"8.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny8,"8.jpg");
 			        harc(Szorny8,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==9){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny9.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny9,"9.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny9,"9.jpg");
 			        harc(Szorny9,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==10){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny10.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny10,"10.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny10,"10.jpg");
 			        harc(Szorny10,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==11){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny11.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny11,"11.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny11,"11.jpg");
 			        harc(Szorny11,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==12){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny12.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny12,"12.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny12,"12.jpg");
 			        harc(Szorny12,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==13){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny13.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny13,"13.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny13,"13.jpg");
 			        harc(Szorny13,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==14){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny14.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny14,"14.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny14,"14.jpg");
 			        harc(Szorny14,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==15){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny15.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny15,"15.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny15,"15.jpg");
 			        harc(Szorny15,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==16){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny16.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny16,"16.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny16,"16.jpg");
 			        harc(Szorny16,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==17){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny17.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny17,"17.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny17,"17.jpg");
 			        harc(Szorny17,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==18){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny18.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny18,"18.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny18,"18.jpg");
 			        harc(Szorny18,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==19){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny19.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny19,"19.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny19,"19.jpg");
 			        harc(Szorny19,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==20){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny20.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny20,"20.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny20,"20.jpg");
 			        harc(Szorny20,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==21){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny21.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny21,"21.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny21,"21.jpg");
 			        harc(Szorny21,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==22){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny22.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny22,"22.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny22,"22.jpg");
 			        harc(Szorny22,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==23){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny23.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny23,"23.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny23,"23.jpg");
 			        harc(Szorny23,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==24){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny24.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny24,"24.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny24,"24.jpg");
 			        harc(Szorny24,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
@@ -331,7 +336,7 @@ public class Palya {
 		
 */		
 		if(irany=='k'){
-			Fo.a.szovegdoboz.setText("Kelet");
+			MenuSor.a.szovegdoboz.setText("Kelet");
 			if(miY<9) {
 				miY+=1;
 			    if(palyaTerkep[miX][miY]==0){
@@ -343,7 +348,7 @@ public class Palya {
 			    		if(Szorny1.szorny_cucca == "Kõ")
 			    		{
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny1.szorny_neve);
-			        Fo.a.szAdatok.szornyAdatokRajz(Szorny1,"1.jpg");
+			        MenuSor.a.szAdatok.szornyAdatokRajz(Szorny1,"1.jpg");
 			        harc(Szorny1,Szorny25);
 			        mi.tapasztalatip += 1;
 			    		}
@@ -351,139 +356,139 @@ public class Palya {
 			    	}
 			    	if(palyaTerkep[miX][miY]==2){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny2.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny2,"2.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny2,"2.jpg");
 			        harc(Szorny2,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==3){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny3.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny3,"3.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny3,"3.jpg");
 			        harc(Szorny3,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==4){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny4.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny4,"4.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny4,"4.jpg");
 			        harc(Szorny4,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==5){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny5.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny5,"5.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny5,"5.jpg");
 			        harc(Szorny5,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==6){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny6.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny6,"6.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny6,"6.jpg");
 			        harc(Szorny6,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==7){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny7.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny7,"7.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny7,"7.jpg");
 			        harc(Szorny7,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==8){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny8.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny8,"8.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny8,"8.jpg");
 			        harc(Szorny8,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==9){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny9.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny9,"9.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny9,"9.jpg");
 			        harc(Szorny9,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==10){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny10.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny10,"10.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny10,"10.jpg");
 			        harc(Szorny10,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==11){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny11.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny11,"11.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny11,"11.jpg");
 			        harc(Szorny11,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==12){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny12.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny12,"12.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny12,"12.jpg");
 			        harc(Szorny12,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==13){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny13.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny13,"13.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny13,"13.jpg");
 			        harc(Szorny13,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==14){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny14.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny14,"14.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny14,"14.jpg");
 			        harc(Szorny14,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==15){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny15.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny15,"15.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny15,"15.jpg");
 			        harc(Szorny15,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==16){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny16.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny16,"16.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny16,"16.jpg");
 			        harc(Szorny16,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==17){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny17.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny17,"17.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny17,"17.jpg");
 			        harc(Szorny17,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==18){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny18.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny18,"18.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny18,"18.jpg");
 			        harc(Szorny18,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==19){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny19.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny19,"19.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny19,"19.jpg");
 			        harc(Szorny19,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==20){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny20.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny20,"20.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny20,"20.jpg");
 			        harc(Szorny20,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==21){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny21.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny21,"21.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny21,"21.jpg");
 			        harc(Szorny21,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==22){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny22.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny22,"22.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny22,"22.jpg");
 			        harc(Szorny22,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==23){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny23.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny23,"23.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny23,"23.jpg");
 			        harc(Szorny23,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==24){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny24.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny24,"24.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny24,"24.jpg");
 			        harc(Szorny24,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
@@ -503,7 +508,7 @@ public class Palya {
 		
 */		
 		if(irany=='e'){
-			Fo.a.szovegdoboz.setText("Észak");
+			MenuSor.a.szovegdoboz.setText("Észak");
 			if(miX>0) {
 				miX-=1;
 			    if(palyaTerkep[miX][miY]==0){
@@ -515,7 +520,7 @@ public class Palya {
 			    		if(Szorny1.szorny_cucca == "Kõ")
 			    		{
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny1.szorny_neve);
-			        Fo.a.szAdatok.szornyAdatokRajz(Szorny1,"1.jpg");
+			        MenuSor.a.szAdatok.szornyAdatokRajz(Szorny1,"1.jpg");
 			        harc(Szorny1,Szorny25);
 			        mi.tapasztalatip += 1;
 			    		}
@@ -523,139 +528,139 @@ public class Palya {
 			    	}
 			    	if(palyaTerkep[miX][miY]==2){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny2.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny2,"2.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny2,"2.jpg");
 			        harc(Szorny2,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==3){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny3.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny3,"3.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny3,"3.jpg");
 			        harc(Szorny3,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==4){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny4.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny4,"4.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny4,"4.jpg");
 			        harc(Szorny4,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==5){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny5.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny5,"5.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny5,"5.jpg");
 			        harc(Szorny5,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==6){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny6.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny6,"6.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny6,"6.jpg");
 			        harc(Szorny6,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==7){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny7.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny7,"7.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny7,"7.jpg");
 			        harc(Szorny7,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==8){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny8.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny8,"8.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny8,"8.jpg");
 			        harc(Szorny8,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==9){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny9.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny9,"9.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny9,"9.jpg");
 			        harc(Szorny9,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==10){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny10.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny10,"10.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny10,"10.jpg");
 			        harc(Szorny10,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==11){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny11.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny11,"11.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny11,"11.jpg");
 			        harc(Szorny11,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==12){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny12.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny12,"12.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny12,"12.jpg");
 			        harc(Szorny12,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==13){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny13.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny13,"13.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny13,"13.jpg");
 			        harc(Szorny13,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==14){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny14.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny14,"14.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny14,"14.jpg");
 			        harc(Szorny14,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==15){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny15.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny15,"15.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny15,"15.jpg");
 			        harc(Szorny15,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==16){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny16.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny16,"16.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny16,"16.jpg");
 			        harc(Szorny16,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==17){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny17.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny17,"17.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny17,"17.jpg");
 			        harc(Szorny17,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==18){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny18.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny18,"18.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny18,"18.jpg");
 			        harc(Szorny18,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==19){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny19.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny19,"19.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny19,"19.jpg");
 			        harc(Szorny19,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==20){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny20.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny20,"20.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny20,"20.jpg");
 			        harc(Szorny20,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==21){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny21.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny21,"21.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny21,"21.jpg");
 			        harc(Szorny21,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==22){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny22.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny22,"22.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny22,"22.jpg");
 			        harc(Szorny22,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==23){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny23.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny23,"23.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny23,"23.jpg");
 			        harc(Szorny23,Szorny25);
 			        mi.tapasztalatip += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==24){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny24.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny24,"24.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny24,"24.jpg");
 			        harc(Szorny24,Szorny25);
 			        mi.szorny_eletpontja += 1;
 			    	}
@@ -675,7 +680,7 @@ public class Palya {
 */		
 		
 		if(irany=='d'){
-			Fo.a.szovegdoboz.setText("Dél");
+			MenuSor.a.szovegdoboz.setText("Dél");
 			if(miX<9) {
 				miX+=1;
 			    if(palyaTerkep[miX][miY]==0){
@@ -687,7 +692,7 @@ public class Palya {
 			    		if(Szorny1.szorny_cucca == "Kõ")
 			    		{
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny1.szorny_neve);
-			        Fo.a.szAdatok.szornyAdatokRajz(Szorny1,"1.jpg");
+			        MenuSor.a.szAdatok.szornyAdatokRajz(Szorny1,"1.jpg");
 			        harc(Szorny1,Szorny25);
 			        mi.tapasztalatip += 1;
 			    		}
@@ -695,141 +700,140 @@ public class Palya {
 			    	}
 			    	if(palyaTerkep[miX][miY]==2){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny2.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny2,"2.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny2,"2.jpg");
 			        harc(Szorny2,Szorny25);
 			        mi.szorny_eletpontja += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==3){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny3.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny3,"3.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny3,"3.jpg");
 			        harc(Szorny3,Szorny25);
 			        mi.szorny_eletpontja += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==4){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny4.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny4,"4.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny4,"4.jpg");
 			        harc(Szorny4,Szorny25);
 			        mi.szorny_eletpontja += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==5){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny5.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny5,"5.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny5,"5.jpg");
 			        harc(Szorny5,Szorny25);
 			        mi.szorny_eletpontja += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==6){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny6.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny6,"6.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny6,"6.jpg");
 			        harc(Szorny6,Szorny25);
 			        mi.szorny_eletpontja += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==7){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny7.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny7,"7.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny7,"7.jpg");
 			        harc(Szorny7,Szorny25);
 			        mi.szorny_eletpontja += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==8){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny8.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny8,"8.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny8,"8.jpg");
 			        harc(Szorny8,Szorny25);
 			        mi.szorny_eletpontja += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==9){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny9.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny9,"9.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny9,"9.jpg");
 			        harc(Szorny9,Szorny25);
 			        mi.szorny_eletpontja += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==10){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny10.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny10,"10.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny10,"10.jpg");
 			        harc(Szorny10,Szorny25);
 			        mi.szorny_eletpontja += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==11){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny11.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny11,"11.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny11,"11.jpg");
 			        harc(Szorny11,Szorny25);
 			        mi.szorny_eletpontja += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==12){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny12.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny12,"12.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny12,"12.jpg");
 			        harc(Szorny12,Szorny25);
 			        mi.szorny_eletpontja += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==13){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny13.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny13,"13.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny13,"13.jpg");
 			        harc(Szorny13,Szorny25);
 			        mi.szorny_eletpontja += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==14){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny14.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny14,"14.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny14,"14.jpg");
 			        harc(Szorny14,Szorny25);
 			        mi.szorny_eletpontja += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==15){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny15.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny15,"15.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny15,"15.jpg");
 			        harc(Szorny15,Szorny25);
 			        mi.szorny_eletpontja += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==16){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny16.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny16,"16.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny16,"16.jpg");
 			        harc(Szorny16,Szorny25);
 			        mi.szorny_eletpontja += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==17){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny17.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny17,"17.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny17,"17.jpg");
 			        harc(Szorny17,Szorny25);
 			        mi.szorny_eletpontja += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==18){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny18.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny18,"18.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny18,"18.jpg");
 			        harc(Szorny18,Szorny25);
 			        mi.szorny_eletpontja += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==19){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny19.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny19,"19.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny19,"19.jpg");
 			        harc(Szorny19,Szorny25);
 			        mi.szorny_eletpontja += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==20){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny20.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny20,"20.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny20,"20.jpg");
 			        harc(Szorny20,Szorny25);
 			        mi.szorny_eletpontja += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==21){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny21.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny21,"21.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny21,"21.jpg");
 			        harc(Szorny21,Szorny25);
 			        mi.szorny_eletpontja += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==22){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny22.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny22,"22.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny22,"22.jpg");
 			        harc(Szorny22,Szorny25);
 			        mi.szorny_eletpontja += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==23){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny23.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny23,"23.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny23,"23.jpg");
 			        harc(Szorny23,Szorny25);
 			        mi.szorny_eletpontja += 1;
 			    	}
 			    	if(palyaTerkep[miX][miY]==24){
 			    		JOptionPane.showMessageDialog(null, "Harcolsz egy szörnnyel! A neve: " + Szorny24.szorny_neve);
-			    		Fo.a.szAdatok.szornyAdatokRajz(Szorny24,"24.jpg");
+			    		MenuSor.a.szAdatok.szornyAdatokRajz(Szorny24,"24.jpg");
 			        harc(Szorny24,Szorny25);
-			        mi.szorny_eletpontja += 1;
 			    	}
 			    }
 			    	mi.tapasztalatip = 1;
@@ -845,29 +849,42 @@ public class Palya {
 		}
 		System.out.println("\n\n");*/
 	}
+	
 	public void boltolas(){
-		
-		int[] arr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-				17, 18, 19, 20, 21, 22, 23, 24, 25}; 
-        int n = arr.length; 
-        randomize (arr, n);
         
-        		if(gyujtottfegyver.isEmpty()) {
+        		if(gyujtottfegyver.size() == 0) {
 					JOptionPane.showMessageDialog(null, "Nincs még gyûjtött fegyvered");
         		}
         		else {
-					JOptionPane.showMessageDialog(null, "A gyûjtött fegyvereid:" + gyujtottfegyver);
+        			int index=0;
+        			for(String s : gyujtottfegyver) {
+					JOptionPane.showMessageDialog(null, "A gyûjtött fegyverek:" + " " + String.valueOf(index++) + ": "  + s);
+        			}
+       			
 					String input = JOptionPane.showInputDialog(null, "Melyik fegyveredtõl válnál meg? [0 - 25]"); 
-					while(input != null)
-					{
-						sorszam = Integer.parseInt(input);
-						JOptionPane.showMessageDialog(null, "Az eladott fegyvered:" + gyujtottfegyver.get(sorszam));
-						gyujtottfegyver.remove(sorszam);	
-
+					
+					index = 0;
+        			for(String s : gyujtottfegyver) {
+    					String.valueOf(index++);
+            			} 
+					
+					if ((input != null) && (input.length() > 0) && input == String.valueOf(index)) {	
+							sorszam = Integer.parseInt(input);
+							JOptionPane.showMessageDialog(null, "Az eladott fegyvered:" + gyujtottfegyver.get(sorszam));
+							gyujtottfegyver.remove(sorszam); 
 					}
+					
 
+        		else {
 						JOptionPane.showMessageDialog(null, "Kiléptél a boltból");
 					}
+						
+					}
+        		
+        		int[] arr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+        				17, 18, 19, 20, 21, 22, 23, 24, 25}; 
+                int n = arr.length; 
+                randomize (arr, n);
 
         		}
 

@@ -3,13 +3,13 @@ package survivor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 public class Program extends JPanel implements ActionListener {
-	
 
 	public JLabel szoveg2 = new JLabel("<HTML><FONT SIZE=2>Tulajdonságok</HTML>");
 	public JLabel szoveg3 = new JLabel("<HTML><FONT SIZE=2>Erõ:</HTML>");
@@ -26,16 +26,16 @@ public class Program extends JPanel implements ActionListener {
 	private JLabel szoveg14 = new JLabel("<HTML><FONT SIZE=2>Utolsó mozgás:</HTML>");
 	private JLabel szoveg15 = new JLabel("<HTML><FONT SIZE=2>Esemény:</HTML>");
 	public JLabel szoveg16 = new JLabel("<HTML><FONT SIZE=2>Varázspont:</HTML>");
-	public SzornyAdatok szAdatok = new SzornyAdatok(); 
+	public SzornyAdatok szAdatok = new SzornyAdatok();
 	public JTextField szovegdoboz = new JTextField();
 	public JTextField szovegdoboz2 = new JTextField();
+	private JButton gomb5 = new JButton("Bolt");
 	private JButton gomb = new JButton("Észak");
 	private JButton gomb2 = new JButton("Kelet");
 	private JButton gomb3 = new JButton("Dél");
 	private JButton gomb4 = new JButton("Nyugat");
-	private JButton gomb5 = new JButton("Bolt");
 	private Palya a = new Palya();
-	
+
 	public Program() {
 		this.setLayout(null);
 		szoveg2.setBounds(95, 100, 200, 40);
@@ -62,7 +62,7 @@ public class Program extends JPanel implements ActionListener {
 		gomb3.setBounds(110, 475, 75, 20);
 		gomb4.setBounds(35, 455, 75, 20);
 		gomb5.setBounds(110, 550, 75, 20);
-		gomb2.addActionListener(this);		
+		gomb2.addActionListener(this);
 		gomb4.addActionListener(this);
 		gomb.addActionListener(this);
 		gomb3.addActionListener(this);
@@ -91,25 +91,21 @@ public class Program extends JPanel implements ActionListener {
 		this.add(gomb3);
 		this.add(gomb4);
 		this.add(gomb5);
-		
+
 	}
-	
+
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource()==gomb4){
+		if (e.getSource() == gomb5) {
+			a.boltolas();
+		} else if (e.getSource() == gomb4) {
 			a.lepes('n', a.Szorny25);
-		}
-		if(e.getSource()==gomb2){
-			
+		} else if (e.getSource() == gomb2) {
+
 			a.lepes('k', a.Szorny25);
-		}
-		if(e.getSource()==gomb){
+		} else if (e.getSource() == gomb) {
 			a.lepes('e', a.Szorny25);
-		}
-		if(e.getSource()==gomb3){
+		} else if (e.getSource() == gomb3) {
 			a.lepes('d', a.Szorny25);
 		}
-		if(e.getSource()==gomb5) {
-			a.boltolas();
-	}
 	}
 }
